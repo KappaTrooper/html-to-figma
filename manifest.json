@@ -1,0 +1,13 @@
+{
+    "name": "HTML to Figma Extractor",
+    "description": "Convert any webpage layout into JSON for use in Figma",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": ["scripting", "activeTab", "downloads"],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "icon.png"
+    },
+    "host_permissions": ["<all_urls>"]
+  }
+  
