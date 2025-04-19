@@ -1,5 +1,5 @@
 (function () {
-  console.log("Extracting page layout...");
+  console.log("Extracting layout with full styles...");
 
   const container = document.querySelector('.main') || document.body;
   const elements = container.querySelectorAll('*');
@@ -27,13 +27,20 @@
       style.visibility === 'hidden'
     ) return;
 
+    let bgImage = style.backgroundImage;
+    if (bgImage && bgImage !== 'none') {
+      bgImage = bgImage.slice(5, -2); // strip url("...") to just the URL
+    } else {
+      bgImage = null;
+    }
+
     const groupKey = getGroupKey(el);
 
     const data = {
       type: tag === 'img' ? 'image' : 'text',
       tag: tag,
       content: tag === 'img' ? null : (el.textContent || "").trim(),
-      src: tag === 'img' ? el.src : null,
+      src: tag === 'img' ? el.src : bgImage,
       position: {
         x: rect.left,
         y: rect.top,
@@ -46,9 +53,19 @@
         fontFamily: style.fontFamily,
         color: style.color,
         backgroundColor: style.backgroundColor,
+        backgroundImage: bgImage,
+        lineHeight: style.lineHeight,
+        letterSpacing: style.letterSpacing,
         textAlign: style.textAlign,
         borderRadius: style.borderRadius,
+        border: style.border,
         boxShadow: style.boxShadow,
+        textShadow: style.textShadow,
+        opacity: style.opacity,
+        zIndex: style.zIndex,
+        display: style.display,
+        padding: style.padding,
+        margin: style.margin,
       },
     };
 
@@ -69,5 +86,5 @@
   a.click();
   a.remove();
 
-  console.log("Download triggered with", Object.keys(groups).length, "group(s).");
+  console.log("✅ Download triggered with", Object.keys(groups).length, "group(s).");
 })();
